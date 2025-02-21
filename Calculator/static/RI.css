@@ -1,0 +1,963 @@
+.homepage{
+    position: relative;
+    height: 80vh;
+    width: 100%;
+    background-image: url('images/RainIntensity.webp');
+    background-position: center 65%;
+    background-size: cover;
+    background-attachment: fixed;
+
+}
+.homepage::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+}
+.homepage .section-content{
+    display: flex;
+    height: 85%;
+    z-index: 3;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.homepage .section-content .text{
+    margin-bottom: 50px;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    width: 50%;
+    z-index: 1;
+}
+.homepage .text h2{
+    font-size: 60px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.section-content p {
+    color: #fff;
+    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.3) ;
+    display: block;
+    font-size: 18px;
+    text-align: left;
+    text-decoration: none;
+    padding: 20px;
+    
+    width: 100%; 
+    background: rgba(0, 0, 0, 0.3); 
+    backdrop-filter: blur(10px);
+
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+}
+
+.content {    
+    margin: 10px 10px 0px 10px;
+    display: flex;
+    gap: 10px;
+
+}
+
+.form-section {
+    flex: 2;
+    display: grid;
+    grid-template-columns: repeat(1, auto);
+
+    /* grid-template-rows: repeat(6, auto); */
+}
+
+.location-stations-container, 
+.adjustment-runoff-container {
+    display: flex;
+    justify-content: flex-start;
+}
+.adjustment-runoff-container{
+    gap: 100px;
+}
+
+/* Main container */
+.coordinate-container {
+    /* background: #E3F2FD; Light blue */
+    /* padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3); */
+    display: block;
+    margin: 10px;
+    background: rgba(54, 160, 158, 0.5);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+
+}
+
+/* 🎯 Input Fields */
+.coordinate-inputs {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+
+}
+
+.coordinate-inputs label {
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.coordinate-inputs input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 14px;
+    transition: 0.3s ease;
+    outline: none;
+}
+
+.coordinate-inputs input::placeholder {
+    color: rgba(50, 50, 50, 0.7);
+}
+
+/* Input rows
+.coordinate-inputs {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+
+
+}
+
+/* Labels */
+/*.coordinate-inputs label {
+    font-size: 16px;
+    font-weight: bold;
+
+}*/
+/* Text inputs */
+/*.coordinate-inputs input[type="text"] {
+    padding: 8px;
+    border: 1px solid #1565C0;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 120px;
+} */
+
+/* Dropdowns */
+.dropdown {
+    padding: 8px;
+    border: 1px solid #1565C0;
+    border-radius: 5px;
+    font-size: 16px;
+    background: white;
+
+}
+
+/* Main container */
+.station-container {
+    /* background: #E3F2FD; Light blue for hydrological theme
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #1565C0; 
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); */
+    margin: 10px;
+
+
+    background: rgba(54, 160, 158, 0.5);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+/* Section title */
+.section-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* List of stations */
+.stations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Individual station */
+.station {
+    display: flex;
+    align-items: center;
+
+    background: white;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #1565C0;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+    width: 500px;
+}
+
+/* Station label */
+.station-label {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Station info (name + distance) */
+.station-info {
+    display: flex;
+    gap: 12px;
+    margin: 0 10px;
+}
+
+/* Station name */
+.station-name {
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 16px;
+    vertical-align: baseline;
+    font-weight: bold;
+    line-height: 1.29;
+    letter-spacing: .16px;
+    border-radius: 5px;
+    outline: 2px solid transparent;
+    outline-offset: -2px;
+    width: 220px;
+    height: 40px;
+    border: none;
+    border-bottom: 1px solid #8d8d8d;
+    background-color: #f4f4f4;
+    padding: 8px 16px;
+    color: #282C31;
+    transition: background-color 70ms cubic-bezier(.2,0,.38,.9),outline 70ms cubic-bezier(.2,0,.38,.9);  
+    :focus{
+        outline: 2px solid #0f62fe;
+        outline-offset: -2px;
+    }
+}
+
+/* Distance */
+.station-distance { 
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 16px;
+    vertical-align: baseline;
+    font-weight: bold;
+    line-height: 1.29;
+    letter-spacing: .16px;
+    border-radius: 5px;
+    outline: 2px solid transparent;
+    outline-offset: -2px;
+    min-width: 60px;
+    height: 40px;
+    border: none;
+    border-bottom: 1px solid #8d8d8d;
+    background-color: #f4f4f4;
+    padding: 8px 16px;
+    color: #282C31;
+    transition: background-color 70ms cubic-bezier(.2,0,.38,.9),outline 70ms cubic-bezier(.2,0,.38,.9);  
+    :focus{
+        outline: 2px solid #0f62fe;
+        outline-offset: -2px;
+    }
+
+}
+
+/* 🌟 Main Container */
+.rain-intensity-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    gap: 20px;
+    font-size: 18px;
+    background-color: #f9f9f9;
+    max-width: 137vh;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    
+}
+
+/* 🔘 Checkbox Item */
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+    gap: 12px;
+    position: relative;
+    padding-left: 25px;
+    color: #555;
+    transition: all 0.2s ease-in-out;
+    
+}
+
+/* Hide default checkbox */
+.checkbox-item input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* 🎨 Custom Checkbox Styling */
+.custom-checkbox {
+    position: absolute;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #fff;
+    border: 2px solid #2196F3;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+/* Hover effect */
+.checkbox-item:hover input ~ .custom-checkbox {
+    background-color: #e0f7fa;
+}
+
+/* Checked state */
+.checkbox-item input:checked ~ .custom-checkbox {
+    background-color: #2196F3;
+    border-color: #2196F3;
+}
+
+/* Checkmark inside checkbox */
+.custom-checkbox::after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show checkmark when checked */
+.checkbox-item input:checked ~ .custom-checkbox::after {
+    display: block;
+    left: 4px;
+    top: 0px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+.distribution-section-all{
+    display: flex;
+    flex-direction: row;
+    gap: 65px;
+}
+
+/* 📦 Distribution Section (Gumbel, Log Pearson, Log-Normal, Plotting Position) */
+.distribution-section {
+    margin-bottom: 30px;
+}
+
+.gumbel-section .checkbox-item,
+.log-pearson-section .checkbox-item,
+.log-normal-section .checkbox-item,
+.plotting-position-section .checkbox-item {
+    font-weight: bold;
+    margin: 0 0 10px 0;
+}
+
+/* 🔲 Intensity Box */
+.intensity-box {
+    color: #282C31;
+    width: 140px;
+    height: 120px;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Hover effect on intensity box */
+.intensity-box:hover {
+    transform: scale(1.05);
+}
+
+/* 📊 Intensity Values */
+.intensity-value {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    font-size: 18px;
+    color: #555;
+    background-color: #fafafa;
+    transition: background-color 0.3s;
+}
+
+/* Remove top border for first value */
+.intensity-value:first-child {
+    border-top: none;
+}
+
+/* Add subtle hover effect for intensity value */
+.intensity-value:hover {
+    background-color: #f0f0f0;
+}
+
+/* 🌟 Main Container for Adjustments */
+.adjustment-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #B0BEC5;
+    border-radius: 8px;
+    padding: 15px;
+    gap: 20px;
+    background-color: #E1F5FE;
+    margin: 20px 10px;
+    width: 500px;
+}
+
+/* 📝 Options Section (Checkboxes) */
+.adjustment-options {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    
+    align-items: center;
+
+    background: white;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #1565C0;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.adjustment-content{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+/* 📊 Value Display Section */
+.adjustment-values {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+/* 🗃️ Value Boxes */
+.value-box {
+    font-size: 14px;
+    color: #424242;
+    padding: 8px 12px;
+    background: #E3F2FD;
+    border: 1px solid #1565C0;
+    border-radius: 5px;
+    font-weight: 500;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* 💡 Hover Effect on Value Boxes */
+.value-box:hover {
+    background-color: #E3F2FD;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Customization for value content */
+.value {
+    font-weight: bold;
+    color: #2196F3;
+}
+
+.map-section {
+    background-color: #e8e8e8;
+    border: 2px solid black;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+iframe {
+    border: none;
+    width: 100%;
+    height: 100%;
+}
+
+.hydro-footer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 25px;
+    padding: 15px;
+    background: #1C1F26; /* Dark background to match UI */
+    border-radius: 0px;
+    border: 2px solid #3A3F47;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.hydro-footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.hydro-footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px 18px;
+    background: #282C31;
+    border-radius: 8px;
+    border: 2px solid #4A4F57;
+    box-shadow: inset 0px 2px 5px rgba(255, 255, 255, 0.05);
+}
+
+.hydro-footer-label {
+    color: #CFCFCF;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.hydro-footer-value {
+    background: #FFF;
+    color: #282C31;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    width: 140px;
+    height: 38px;
+    line-height: 38px;
+    border-radius: 6px;
+    border: 2px solid #3A3F47;
+    box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* 🔹 Buttons */
+.hydro-footer-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.hydro-btn {
+    height: 48px;
+    width: 180px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.calculate-btn {
+    background: linear-gradient(135deg, #009688, #00796B);
+}
+
+.clear-btn {
+    background: linear-gradient(135deg, #E53935, #B71C1C);
+}
+
+.hydro-btn:hover {
+    transform: scale(1.07);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* 🌊 Background Styling */
+.rain-container {
+    position: relative;
+    width: 100%;
+    min-height: 120vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #2c3e50, #3498db);
+}
+
+/* Adding a Glassmorphism Effect */
+.rain-section {
+    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    margin-top: 20px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    max-width: 90%;
+}
+
+/* 🌟 Title Styling */
+.rain-title {
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* 🌐 Table Styling */
+.rain-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 18px;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+/* 📌 Header Styling */
+.table-header {
+    background: linear-gradient(135deg, #3498db, #6dd5ed);
+    color: #fff;
+}
+
+/* 🏁 Table Rows & Cells */
+.table-row {
+    transition: background 0.3s ease-in-out;
+}
+
+.table-row:nth-child(even) {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.table-row:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ✨ Table Cell Styling */
+.table-cell {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+/* 🎯 Special Styling for Data Cells */
+.value-cell {
+    font-weight: bold;
+    color: #fff;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+    border-radius: 8px;
+}
+
+/* Cool Hover Effect */
+.value-cell:hover {
+    background: #ffffff;
+    color: #2c3e50;
+    transform: scale(1.1);
+    box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.3);
+}
+
+/* 🎨 Chart Container Styling */
+.chart-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 500px;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* 📌 Title Styling */
+.chart-title {
+    font-size: 26px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    color: #fff;
+    text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.3);
+    margin-bottom: 15px;
+}
+
+
+
+/* 📱 Responsive Design */
+@media (max-width: 768px) {
+    .rain-section {
+        padding: 15px;
+        max-width: 95%;
+    }
+
+    .rain-title {
+        font-size: 24px;
+    }
+
+    .rain-data-table {
+        font-size: 16px;
+    }
+}
+
+.sectionChart{
+    width: 100%;
+    height: 95vh;
+    text-align: center;
+    background-color: #E3F2FD;
+}
+.titleChart{
+    color: #009688 ;
+    margin-bottom: 25px;
+}
+#idfChart{
+    margin: 0 10%;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    border-radius: 25px;
+}
+
+/* 🚀 Runoff Container */
+.runoff-container {
+    background: rgba(54, 160, 158, 0.5);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+/* 🎯 Input Fields */
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.input-group label {
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 14px;
+    transition: 0.3s ease;
+    outline: none;
+}
+
+.input-group input::placeholder {
+    color: rgba(50, 50, 50, 0.7);
+}
+
+.input-group input:focus {
+    background: rgba(255, 255, 255, 0.3);
+    border-left: 3px solid #4CA1AF;
+}
+
+/* ✅ Result Box */
+.result-box {
+    margin: 15px 0;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #000000;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.result-box .unit {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* 🎮 Buttons */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.btn {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.calculate {
+    background: #4CA1AF;
+    color: #fff;
+}
+
+.calculate:hover {
+    background: #3b8f99;
+}
+
+.clear {
+    background: #e74c3c;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.clear:hover {
+    background: #c0392b;
+}
+
+/* Styles for smaller screens (mobile/tablets) */
+@media screen and (max-width: 1068px) {
+    form {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    .content {
+        flex-direction: column;
+        margin: 0;
+        gap: 10px;
+    }
+
+    .form-section {
+        flex: 1;
+        grid-template-rows: repeat(10, auto);
+    }
+
+    .coordinates {
+        padding: 8px;
+    }
+
+    .coordinates > div {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .stations {
+        padding: 8px;
+    }
+
+    .stations .adj {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .stations .con {
+        flex-direction: column;
+    }
+
+    .adjusted .con {
+        flex-direction: column;
+    }
+
+    .adjusted .adj {
+        gap: 15px;
+    }
+
+    .distribution .labels, .distribution .boxes {
+        flex-direction: column;
+        margin: 0;
+    }
+
+    .footer .footerbox {
+        flex-direction: column;
+    }
+
+    .footer .footerboxinput div {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .footer .buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .footer button {
+        width: 100%;
+        font-size: 18px;
+    }
+
+    .footer input {
+        width: 100%;
+    }
+
+    table {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    th, td {
+        font-size: 14px;
+        padding: 6px;
+    }
+
+    td.values {
+        font-size: 14px;
+    }
+}
+
+/* Styles for very small screens (portrait mobile devices) */
+@media screen and (max-width: 480px) {
+    form {
+        margin: 5px;
+        padding: 10px;
+    }
+
+    .footer .footerbox {
+        padding: 15px;
+    }
+
+    .footer .footerboxtext div {
+        margin: 10px;
+    }
+
+    .footer button {
+        font-size: 16px;
+    }
+
+    .footer input {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    .map-section {
+        padding: 5px;
+    }
+
+    iframe {
+        height: 200px;
+    }
+}

@@ -1,0 +1,189 @@
+{% extends "Base.html" %}
+<!--{% load static %} -->
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'TC.css' %}" />
+
+{% endblock styles %}
+
+{% block main_content %}
+
+
+<section class="homepage" id="home">
+    {% include 'messages.html' %}
+    <div class="section-content flex">
+        <div class="text">
+            <h2>Time Of Concentration</h2>
+            <p>
+                The Time of Concentration Calculator is a valuable tool for determining the time it takes for runoff to travel from the most distant point in a watershed to the outlet. This calculation is essential for designing drainage systems, flood prevention, and hydrological studies.
+            </p>
+        </div>
+    </div>
+</section>
+
+<form id="Tc" action="" method="POST">
+    {% csrf_token %}
+    <div class="container">
+        <div class="hydro-form">
+            <div class="formula-header">
+                <h4><u>Please Insert Parameters</u></h4>
+            </div>
+            <div class="hydro-row">
+                <label for="H">H [m]</label>
+                <input type="text" name="H" id="H" value="{{ data.H }}" class="hydro-input" />
+        
+                <label for="L">L [m]</label>
+                <input type="text" name="L" id="L" value="{{ data.L }}" class="hydro-input" />
+        
+                <label for="S">S [-]</label>
+                <input type="text" name="S" id="S" value="{{ data.S }}" class="hydro-input" />
+            </div>
+        
+            <div class="hydro-row">
+                <label for="A">A [km²]</label>
+                <input type="text" name="A" id="A" value="{{ data.A }}" class="hydro-input" />
+        
+                <label for="DH">DeltaH [m]</label>
+                <input type="text" name="DH" id="DH" value="{{ data.DeltaH }}" class="hydro-input" />
+        
+                <label for="Slope_mean">Slope Mean [-]</label>
+                <input type="text" name="Slope_mean" id="Slope_mean" value="{{ data.Slope_mean }}" class="hydro-input" />
+            </div>
+        
+            <div class="hydro-row">
+                <label for="r">r</label>
+                <input type="text" name="r" id="r" value="{{ data.r }}" class="hydro-input" />
+        
+                <label for="C">C</label>
+                <input type="text" name="C" id="C" value="{{ data.C }}" class="hydro-input" />
+        
+                <label for="CN">CN</label>
+                <input type="text" name="CN" id="CN" value="{{ data.CN }}" class="hydro-input" />
+            </div>
+        </div>
+                
+        <div class="formula-container">
+            <div class="formula-header">
+                <h4><u>Select One or More Formulas</u></h4>
+            </div>
+        
+            <div class="formula-options">
+                <div class="formula-group">
+                    {% for formula in formulas_names %}
+                        {% if forloop.counter <= 8 %}
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="formula" value="{{ formula }}" {% if formula in selected_formulas_names %}checked{% endif %}>
+                                <span class="checkbox-label">{{ formula }}</span>
+                            </label>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+        
+                <div class="formula-group">
+                    {% for formula in formulas_names %}
+                        {% if forloop.counter > 8 and forloop.counter <= 16 %}
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="formula" value="{{ formula }}" {% if formula in selected_formulas_names %}checked{% endif %}>
+                                <span class="checkbox-label">{{ formula }}</span>
+                            </label>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+        
+                <div class="formula-group">
+                    {% for formula in formulas_names %}
+                        {% if forloop.counter > 16 and forloop.counter <= 24%}
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="formula" value="{{ formula }}" {% if formula in selected_formulas_names %}checked{% endif %}>
+                                <span class="checkbox-label">{{ formula }}</span>
+                            </label>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        
+            <div class="manual-entry">
+                <label class="custom-checkbox">
+                    <input type="checkbox" name="AddManually" value="AddManually" {% if 'AddManually' in selected_formulas_names %}checked{% endif %}>
+                    <span class="checkbox-label manual-label">Add manually [Hour]</span>
+                </label>
+                <input type="text" name="addManully" class="manual-input" value="{{ addManully }}" placeholder="Enter Value"/>
+            </div>
+        </div>
+
+            <div class="hydro-footer">
+                <div class="hydro-footer-container">
+                    <!-- Average TC Display Box -->
+                    <div class="hydro-footer-content">
+                        <span class="hydro-footer-label">Average TC [Hour]:</span>
+                        <div class="hydro-footer-value">{{ averageTC | default:'0.0' }}</div>
+                    </div>
+            
+                    <!-- Action Buttons -->
+                    <div class="hydro-footer-buttons">
+                        <button class="hydro-btn calculate-btn" type="submit" name="action" value="calculate">Calculate</button>
+                        <button class="hydro-btn clear-btn" type="submit" name="action" value="clear">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</form>
+
+{% endblock main_content %}
+
+{% block scripts %}
+<style>
+    .input-error {
+        border: 2px solid red !important;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        const inputs = document.querySelectorAll("input[type='text']");
+        const checkboxes = document.querySelectorAll("input[type='checkbox']");
+
+        form.addEventListener("submit", function (e) {
+            const clickedButton = document.activeElement;
+
+            if (clickedButton.name === "action" && clickedButton.value === "clear") {
+                // Clear text inputs and remove red borders
+                inputs.forEach(input => {
+                    input.value = "";
+                    input.classList.remove("input-error");
+                });
+
+                // Uncheck all checkboxes
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+
+                e.preventDefault(); // Prevent form submission
+            } else if (clickedButton.name === "action" && clickedButton.value === "calculate") {
+                // Check if at least one checkbox is selected
+                const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+                // Check if at least one input has a value
+                const validParameter = Array.from(inputs).some(input => input.value.trim() !== "");
+
+                // If no checkboxes are selected or no valid input parameter is provided, prevent form submission
+                if (!isChecked || !validParameter) {
+                    e.preventDefault(); // Prevent form submission
+                    alert("Please select at least one checkbox and provide valid parameters to calculate.");
+                }
+
+                // Validate text inputs
+                inputs.forEach(input => {
+                    if (input.value.trim() === "") {
+                        input.classList.add("input-error");
+                    } else {
+                        input.classList.remove("input-error");
+                    }
+                });
+            }
+        });
+    });
+    
+</script>
+
+{%endblock scripts %}

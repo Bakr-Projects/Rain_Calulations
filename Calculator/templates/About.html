@@ -1,0 +1,72 @@
+{% extends "Base.html" %}
+<!--{% load static %} -->
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'Aboutus.css' %}" />
+{% endblock styles %} 
+
+{% block main_content %}
+<div class="body">
+    <div class="content">
+        <section class="project-info">
+            <h2>About the Project</h2>
+                <p>The Hydrological Calculator is a web-based tool designed to assist engineers, researchers, and environmentalists in performing hydrological calculations. It features real-time rainfall intensity analysis, geographical mapping, and water flow estimations.</p>
+                <h3>Technologies Used</h3>
+                <ul class="project-features">
+                    <li>Backend: Python (Django)</li>
+                    <li>Frontend: HTML, CSS, JavaScript</li>
+                </ul>
+        </section>
+
+        <section class="team-section">
+            <h2>Meet the Team</h2>
+            
+            <div class="team-container">
+                <div class="team-card">
+                    <img src="your-photo.jpg" alt="Bakr Abo Sleem">
+                    <h3>Eng Bakr abo slem</h3>
+                    <p>Embedded Software Engineer | Full-Stack Developer</p>
+                    <p>LinkedIn: <a href="https://www.linkedin.com/in/bakr-abo-slem-9a731716a/" target="_blank">Bakr Abo Slem</a></p>
+                </div>
+                <div class="team-card">
+                    <img src="{% static 'images/Adnan.jpg'%}" alt="Adnan Egpariah">
+                    <h3>Prof. Adnan Agbaria</h3>
+                    <p>Lecturer and Research</p>
+                    <p>LinkedIn: <a href="https://www.linkedin.com/in/adnan-agbaria-651849b/" target="_blank">Adnan Agbaria</a></p>
+
+                </div>
+                <div class="team-card">
+                    <img src="{% static 'images/Mashor.jpg'%}" alt="Mashhor Hosh">
+                    <h3>Prof. Mashor Housh</h3>
+                    <p>Associate Professor at University of Haifa</p>
+                    <p>LinkedIn: <a href="https://www.linkedin.com/in/mashor-housh-99615116/" target="_blank">Mashor Housh</a></p>
+
+                </div>
+                <div class="team-card">
+                    <img src="{% static 'images/Dor.jpg'%}" alt="Dor">
+                    <h3>Eng Dor Gez</h3>
+                    <p>B.Sc Water Engineering | Hydrology</p>
+                    <p>LinkedIn: <a href="https://www.linkedin.com/in/dor-gez-36aa02261/" target="_blank">Dor Gez</a></p>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- <section class="contact-form">
+            <h2>Contact Us</h2>
+            <form>
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </section> -->
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 Hydrological Calculator. All rights reserved.</p>
+    </footer>
+
+</div>
+
+{%endblock main_content %}

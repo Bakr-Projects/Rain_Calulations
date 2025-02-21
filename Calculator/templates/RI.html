@@ -1,0 +1,491 @@
+{% extends "Base.html" %}
+<!--{% load static %} -->
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'RI.css' %}" />
+{% endblock styles %} 
+
+{% block main_content %}
+<section class="homepage" id="home">
+    <div class="section-content flex">
+        <div class="text">
+            <h2>Rain Intensity</h2>
+            <p>
+                The Rain Intensity Calculator is a powerful tool designed to analyze and measure the rate of rainfall over a specific period. It helps users understand the intensity of precipitation, which is crucial for weather forecasting, hydrology, urban planning, and agriculture.            </p>
+        </div>
+    </div>
+</section>
+
+<form id="RI" action="" method="post">
+    {% csrf_token %}
+    <div class="content">
+        <div class="form-section">
+            <div class="location-stations-container">
+                <div class="coordinate-container">
+                    <h2 class="section-title">Location & Parameters</h2>
+                    <div class="coordinate-inputs">
+                        <label for="x_coordinate">X:</label>
+                        <input type="text" id="x_coordinate" name="x_coordinate" value="{{x_coordinate}}" placeholder="x_coordinate"/>
+                        <label for="y_coordinate">Y:</label>
+                        <input type="text" id="y_coordinate" name="y_coordinate" value="{{y_coordinate}}" placeholder="y_coordinate"/>
+                    </div>
+                    <div class="coordinate-inputs">
+                        <label for="return_period">Return Period:</label>
+                        <select id="return_period" name="return_period" class="dropdown">
+                            <option value="2 Years" {% if return_period == '"2 Years"' %}selected{% endif %}>2 Years</option>
+                            <option value="5 Years" {% if return_period == '"5 Years"' %}selected{% endif %}>5 Years</option>
+                            <option value="10 Years" {% if return_period == '"10 Years"' %}selected{% endif %}>10 Years</option>
+                            <option value="25 Years" {% if return_period == '"25 Years"' %}selected{% endif %}>25 Years</option>
+                            <option value="50 Years" {% if return_period == '"50 Years"' %}selected{% endif %}>50 Years</option>
+                            <option value="100 Years" {% if return_period == '"100 Years"' %}selected{% endif %}>100 Years</option>
+                            <option value="200 Years" {% if return_period == '"200 Years"' %}selected{% endif %}>200 Years</option>
+                            <option value="500 Years" {% if return_period == '"500 Years"' %}selected{% endif %}>500 Years</option>
+                            <option value="1000 Years" {% if return_period == '"1000 Years"' %}selected{% endif %}>1000 Years</option>
+                        </select>
+
+                        <label for="duration">Duration:</label>
+                        <select id="duration" name="duration" class="dropdown">
+                            <option value="10 min" {% if duration == '"10 min"' %}selected{% endif %}>10 min</option>
+                            <option value="20 min" {% if duration == '"20 min"' %}selected{% endif %}>20 min</option>
+                            <option value="30 min" {% if duration == '"30 min"' %}selected{% endif %}>30 min</option>
+                            <option value="40 min" {% if duration == '"40 min"' %}selected{% endif %}>40 min</option>
+                            <option value="50 min" {% if duration == '"50 min"' %}selected{% endif %}>50 min</option>
+                            <option value="1 hr" {% if duration == '"1 hr"' %}selected{% endif %}>1 hr</option>
+                            <option value="1.5 hr" {% if duration == '"1.5 hr"' %}selected{% endif %}>1.5 hr</option>
+                            <option value="2 hr" {% if duration == '"2 hr"' %}selected{% endif %}>2 hr</option>
+                            <option value="2.5 hr" {% if duration == '"2.5 hr"' %}selected{% endif %}>2.5 hr</option>
+                            <option value="3 hr" {% if duration == '"3 hr"' %}selected{% endif %}>3 hr</option>
+                            <option value="3.5 hr" {% if duration == '"3.5 hr"' %}selected{% endif %}>3.5 hr</option>
+                            <option value="4 hr" {% if duration == '"4 hr"' %}selected{% endif %}>4 hr</option>
+                            <option value="4.5 hr" {% if duration == '"4.5 hr"' %}selected{% endif %}>4.5 hr</option>
+                            <option value="5 hr" {% if duration == '"5 hr"' %}selected{% endif %}>5 hr</option>
+                            <option value="6 hr" {% if duration == '"6 hr"' %}selected{% endif %}>6 hr</option>
+                        </select> 
+                    </div>
+                </div>
+
+                <div class="station-container">
+                    <h2 class="section-title">Nearby Stations</h2>
+            
+                    <div class="stations-list">
+                        <div class="station">
+                            <span class="station-label">Station 1:</span>
+                            <div class="station-info">
+                                <span class="station-name">{{station_1_name}}</span>
+                                <span class="station-distance">{{station_1_km|default:'0.0'}} km</span>
+                            </div>
+                        </div>
+            
+                        <div class="station">
+                            <span class="station-label">Station 2:</span>
+                            <div class="station-info">
+                                <span class="station-name">{{station_2_name}}</span>
+                                <span class="station-distance">{{station_2_km|default:'0.0'}} km</span>
+                            </div>
+                        </div>
+            
+                        <div class="station">
+                            <span class="station-label">Station 3:</span>
+                            <div class="station-info">
+                                <span class="station-name">{{station_3_name}}</span>
+                                <span class="station-distance">{{station_3_km|default:'0.0'}} km</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="rain-intensity-container">
+                <div class="section-title">
+                    <h4>Rain Intensity [mm/hr] in Different Distributions</h4>
+                </div>
+            
+                <div class="distribution-section-all">
+                    <!-- Gumbel Distribution Section -->
+                    <div class="distribution-section gumbel-section">
+                        <label class="checkbox-item">Gumbel
+                            <input type="checkbox" name="distribution" value="gumble"
+                                {% if 'gumble' in selected_checkbox %} checked {% endif %} />
+                            <span class="custom-checkbox"></span>
+                        </label>
+                        <div class="intensity-box">
+                            <div class="intensity-value">{{ gumble_1 }}</div>
+                            <div class="intensity-value">{{ gumble_2 }}</div>
+                            <div class="intensity-value">{{ gumble_3 }}</div>
+                        </div>
+                    </div>
+                
+                    <!-- Log Pearson Section -->
+                    <div class="distribution-section log-pearson-section">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="distribution" value="log-pearson"
+                                {% if 'log-pearson' in selected_checkbox %} checked {% endif %} />
+                            <span class="custom-checkbox"></span>
+                            Log Pearson Type III
+                        </label>
+                        <div class="intensity-box">
+                            <div class="intensity-value">{{ log_pearson_1 }}</div>
+                            <div class="intensity-value">{{ log_pearson_2 }}</div>
+                            <div class="intensity-value">{{ log_pearson_3 }}</div>
+                        </div>
+                    </div>
+            
+                    <!-- Log-Normal Section -->
+                    <div class="distribution-section log-normal-section">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="distribution" value="log-normal"
+                                {% if 'log-normal' in selected_checkbox %} checked {% endif %} />
+                            <span class="custom-checkbox"></span>
+                            Log-Normal
+                        </label>
+                        <div class="intensity-box">
+                            <div class="intensity-value">{{ log_normal_1 }}</div>
+                            <div class="intensity-value">{{ log_normal_2 }}</div>
+                           <div class="intensity-value">{{ log_normal_3 }}</div>
+                        </div>
+                    </div>
+            
+                    <!-- Plotting Position Section -->
+                    <div class="distribution-section plotting-position-section">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="plotting" value="plotting-position"
+                                {% if 'plotting-position' in selected_checkbox %} checked {% endif %} />
+                            <span class="custom-checkbox"></span>
+                            Plotting Position
+                        </label>
+                        <div class="intensity-box">
+                            <div class="intensity-value">{{ plotting_position_1 }}</div>
+                            <div class="intensity-value">{{ plotting_position_2 }}</div>
+                            <div class="intensity-value">{{ plotting_position_3 }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="adjustment-runoff-container">
+                <div class="adjustment-container">
+                    <div class="section-title">
+                        <h4>Adjusted Calculation:</h4>
+                    </div>
+                    <div class="adjustment-content">
+                        <!-- Checkbox section -->
+                        <div class="adjustment-options">
+                            <label class="checkbox-item">Average Intensity:
+                                <input type="checkbox" name="adjusted" value="intensity" {% if 'intensity' in selected_checkbox %} checked {% endif %} />
+                                <span class="custom-checkbox"></span>
+                            </label>
+                            <!-- Value display section -->
+                            <div class="adjustment-values">
+                                <div class="value-box">
+                                    <span class="value">{{ average_intensity|default:'0.0' }} mm/hr</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="adjustment-options">
+                            <label class="checkbox-item">Average Intensity (IDW):
+                                <input type="checkbox" name="adjusted" value="idw" {% if 'idw' in selected_checkbox %} checked {% endif %} />
+                                <span class="custom-checkbox"></span>
+                            </label>
+                            <div class="adjustment-values">
+                                <div class="value-box">
+                                    <div class="value">{{ average_idw|default:'0.0' }} mm/hr</div> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="adjustment-options">
+                            <label class="checkbox-item">Linear Interpolation:
+                                <input type="checkbox" name="adjusted" value="linear" {% if 'linear' in selected_checkbox %} checked {% endif %} />
+                                <span class="custom-checkbox"></span>
+                            </label>
+                            <!-- Value display section -->
+                            <div class="adjustment-values">
+                                <div class="value-box">
+                                    <div class="value">{{ linear_interpolation|default:'0.0' }} mm/hr</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="runoff-container">
+                    <h2 class="section-title">Runoff Calculation</h2>
+                    <div class="runoff-form">
+                        <div class="input-group">
+                            <label for="A_dunam">A [dunam]:</label>
+                            <input type="text" id="A_dunam" name="A_dunam" value="{{A_dunam}}" placeholder="Enter area in dunam" />
+                        </div>
+            
+                        <div class="input-group">
+                            <label for="Runoff_Coefficient">C (Runoff Coefficient):</label>
+                            <input type="text" id="Runoff_Coefficient" name="Runoff_Coefficient" value="{{Runoff_Coefficient}}" placeholder="Enter coefficient" />
+                        </div>
+            
+                        <div class="result-box">
+                            <label>Qp:</label>
+                            <div class="value">{{ Qp|default:'0.0' }} <span class="unit">[m³/hr]</span></div>
+                        </div>
+            
+                        <!-- <div class="button-group">
+                            <button class="btn calculate" type="submit" name="action" value="calculateRunoff">Calculate</button>
+                            <button class="btn clear" type="submit" name="action" value="clearRunoff">Clear</button>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="map-section">{{Map|safe}}</div>
+    </div>
+
+
+    <div class="hydro-footer">
+        <div class="hydro-footer-container">
+            <!-- Average TC Display Box -->
+            <div class="hydro-footer-content">
+                <span class="hydro-footer-label">Final Intensity [mm/hr]:</span>
+                <div class="hydro-footer-value">{{final_intensity|default:'0.0'}}</div>
+            </div>
+    
+            <!-- Action Buttons -->
+            <div class="hydro-footer-buttons">
+                <button class="hydro-btn calculate-btn" type="submit" name="action" value="calculate">Calculate</button>
+                <button class="hydro-btn clear-btn" type="submit" name="action" value="clear">Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="calculation-footer">
+        <div class="footer-box">
+            <div class="footer-labels">
+            </div>
+            <div class="footer-values">
+                <!-- <div>{{averageTC|default:'0.0'}}</div> 
+                <div>{{final_intensity|default:'0.0'}}</div>
+            </div>
+        </div>
+    
+        <div class="button-group">
+            <button class="btn calculate" type="submit" name="action" value="calculate">Calculate</button>
+            <button class="btn clear" type="submit" name="action" value="clear">Clear</button>
+        </div>
+    </div> -->
+    
+
+    <div class="rain-container">
+        <!-- IDF Rain Data Table -->
+        <div class="rain-section">
+            <h1 class="rain-title">IDF Rain Data</h1>
+            <table class="rain-data-table">
+                <thead>
+                    <tr class="table-header">
+                        <th></th>
+                        {% for header in headers %}
+                            <th class="table-cell">{{ header }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for duration, row_values in average_table %}
+                        <tr class="table-row">
+                            <td class="table-cell">{{ duration }}</td>
+                            {% for value in row_values %}
+                                <td class="table-cell value-cell">{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="IDF-Graph">
+        <!-- IDF Graph -->
+        <div class="chart-container">
+            <h1 class="chart-title">IDF Graph</h1>
+            <canvas id="idfChart"></canvas>
+        </div>
+    </div>
+
+    
+</form>
+
+{% endblock main_content %}
+
+{% block scripts %}
+<style>
+    .input-error {
+        border: 2px solid red !important;
+    }
+</style>
+<script>
+
+</script>
+
+<script>
+    window.onload = function() {
+        const ctx = document.getElementById('idfChart').getContext('2d');
+    
+        var durations = ["10 minutes", "20 minutes", "30 minutes", "40 minutes", "50 minutes", 
+        "1 hr", "1.5 hr", "2 hours", "2.5 hours", "3 hours", "3.5 hours", 
+        "4 hr", "4.5 hours", "5 hours", "6 hours"];
+    
+        var returnPeriods = JSON.parse('{{ return_periods|safe|escapejs }}');
+        var values = '{{ value|safe}}';
+
+        if (!returnPeriods || !values || returnPeriods.length === 0 || values.length === 0) {
+            console.log("Missing data for chart!");
+            return;
+        }
+        
+
+        // Ensure values is a valid array
+        if (typeof values === "string") {
+            try {
+                values = JSON.parse(values);
+            } catch (error) {
+                values = [];
+            }
+        }
+
+        // Ensure it's an array
+        if (!Array.isArray(values)) {
+            values = [];
+        }
+        
+        const returnPeriodsArray = Array.isArray(returnPeriods) ? returnPeriods : [returnPeriods];
+    
+        // 🎨 Dynamic Neon Colors
+        function generateColor(index) {
+            return `hsl(${index * 35}, 90%, 60%)`;
+        }
+    
+        const datasets = returnPeriodsArray.map((rp, index) => ({
+            label: `${rp} Years`,
+            data: values.map(row => Array.isArray(row) ? row[index] : 0),
+            borderColor: generateColor(index),
+            backgroundColor: generateColor(index),
+            fill: false,
+            borderWidth: 3, 
+            pointStyle: 'circle',
+            pointRadius: 3,
+            pointHoverRadius: 6,
+            hoverBorderWidth: 5,
+            tension: 0.3,
+            shadowOffsetX: 4,
+            shadowOffsetY: 4,
+        }));
+    
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: durations,
+                datasets: datasets,
+            },
+            options: {
+                responsive: true,
+                animation: {
+                    duration: 1200,
+                    easing: 'easeInOutQuart'
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            color: '#fff',
+                            font: { size: 14, weight: 'bold' },
+                            usePointStyle: true,
+                            boxWidth: 10
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: "rgba(0, 0, 0, 0.7)",
+                        titleColor: "#fff",
+                        bodyColor: "#fff",
+                        borderWidth: 2,
+                        borderColor: "#fff"
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Duration (minutes)",
+                            color: "#fff",
+                            font: { size: 16, weight: 'bold' }
+                        },
+                        ticks: { color: "#fff" },
+                        grid: { color: "rgba(255, 255, 255, 0.2)" }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: "Rain Intensity (mm/hr)",
+                            color: "#fff",
+                            font: { size: 16, weight: 'bold' }
+                        },
+                        ticks: { color: "#fff" },
+                        grid: { color: "rgba(255, 255, 255, 0.2)" }
+                    }
+                }
+            }
+        });
+    };
+        
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        const inputs = document.querySelectorAll("input[type='text']");
+        const checkboxes = document.querySelectorAll("input[type='checkbox']");
+        const boxes = document.querySelectorAll('.box');
+    
+        form.addEventListener("submit", function (e) {
+            const clickedButton = document.activeElement;
+            if (clickedButton.name === "action" && clickedButton.value === "clear") {
+                // Clear text inputs and remove red borders
+                inputs.forEach(input => {
+                    input.value = "";
+                    input.classList.remove("input-error");
+                });
+
+                // Uncheck all checkboxes
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                
+                // Clear the content of each box
+                boxes.forEach(box => {
+                    const innerDivs = box.querySelector('div');
+                    innerDivs.forEach(innerDiv =>{
+                        innerDiv.textContent = ''; // Set the inner content to an empty string
+                    });
+                });
+
+                e.preventDefault(); // Prevent form submission
+            } else if (clickedButton.name === "action" && clickedButton.value === "calculate") {
+                // Check if at least one checkbox is selected
+                const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+                // Check if at least one input has a value
+                const validParameter = Array.from(inputs).some(input => input.value.trim() !== "");
+
+                // If no checkboxes are selected or no valid input parameter is provided, prevent form submission
+                if (!isChecked || !validParameter) {
+                    e.preventDefault(); // Prevent form submission
+                    alert("Please select at least one checkbox and provide valid parameters to calculate.");
+                }
+
+                // Validate text inputs
+                inputs.forEach(input => {
+                    if (input.value.trim() === "") {
+                        input.classList.add("input-error");
+                    } else {
+                        input.classList.remove("input-error");
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+{%endblock scripts %}
